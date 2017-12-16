@@ -17,7 +17,8 @@ class FirstViewController: UIViewController, UITableViewDataSource, UITableViewD
     var contacts = [CNContact]()
     var contactStore = CNContactStore()
     var letters = [Character]()
-    var contactsSorted = ["A": [CNContact]()]
+    var contactsSorted = [String : [CNContact]]()
+    var allContacts = [[CNContact]]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -40,9 +41,15 @@ class FirstViewController: UIViewController, UITableViewDataSource, UITableViewD
             showOpenSettingsBtn()
             contactStore.requestAccess(for: .contacts){success, err in
                 if success{
-                    DispatchQueue.main.async() {
-                        self.tableView.isHidden = false
-                        self.view.bringSubview(toFront: self.tableView)
+                    DispatchQueue.global(qos: .background).async {
+                        let allContacts = self.getContacts()
+                        self.contacts = allContacts
+                        self.sortContacts(contacts: allContacts)
+                        DispatchQueue.main.async {
+                            self.tableView.isHidden = false
+                            self.view.bringSubview(toFront: self.tableView)
+                            self.tableView.reloadData()
+                        }
                     }
                 }
                 guard err == nil && success else{
@@ -102,8 +109,7 @@ class FirstViewController: UIViewController, UITableViewDataSource, UITableViewD
     // MARK: - set contacts to alphabetical groups
     func sortContacts(contacts: [CNContact]){
         
-        // Build letters array:
-        
+        // Build letters array first:
         letters = contacts.map { (name) -> Character in
             if name.familyName != "" {
                 return name.familyName[name.familyName.startIndex]
@@ -117,7 +123,6 @@ class FirstViewController: UIViewController, UITableViewDataSource, UITableViewD
             else{
                 return "A"
             }
-            //return name.familyName[name.familyName.startIndex]
         }
         
         letters = letters.sorted()
@@ -159,33 +164,58 @@ class FirstViewController: UIViewController, UITableViewDataSource, UITableViewD
         for (letter, list) in contactsSorted {
             contactsSorted[letter] = list
         }
+        
+        allContacts = contactsSorted.keys.sorted().map { contactsSorted[$0]! }
     }
 
     // MARK: - Table View
 
     func numberOfSections(in tableView: UITableView) -> Int {
-        return contactsSorted.count
+        return letters.count
     }
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return Array(contactsSorted)[section].key
+        return String(letters[section])
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return Array(contactsSorted)[section].value.count
+        return allContacts[section].count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
         
-        let contact = Array(contactsSorted)[indexPath.section]
-        let contactDetails = contact.value[indexPath.row]
+        let contacts = allContacts[indexPath.section]
+        let contactDetails = contacts[indexPath.row]
+        
         cell.textLabel!.text = "\(contactDetails.givenName) \(contactDetails.familyName)"
         if contactDetails.phoneNumbers != [] {
             cell.detailTextLabel?.text = "\(contactDetails.phoneNumbers[0].value.stringValue)"
         }
         return cell
     }
+    
+    var name = String()
+    var number = String()
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath as IndexPath, animated: true)
+    }
+    
+    override func prepare(for segue:UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "EditContactSegue" {
+            if let indexPath = self.tableView.indexPathForSelectedRow {
+                let backItem = UIBarButtonItem()
+                backItem.title = "Back"
+                navigationItem.backBarButtonItem = backItem
+                let destViewController = segue.destination as! EditViewController
+                destViewController.hidesBottomBarWhenPushed = true
+                name = (self.tableView.cellForRow(at: indexPath)?.textLabel?.text)!
+                print(name)
+                //destViewController.nameLabel.text = (self.tableView.cellForRow(at: indexPath)?.textLabel?.text)!
+            }
+        }
+    }
+    
 
 }
 
