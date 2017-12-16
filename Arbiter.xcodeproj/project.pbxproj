@@ -13,6 +13,7 @@
 		C02ABA201FB8CC5D00998799 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C02ABA1E1FB8CC5D00998799 /* Main.storyboard */; };
 		C02ABA221FB8CC5D00998799 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C02ABA211FB8CC5D00998799 /* Assets.xcassets */; };
 		C02ABA251FB8CC5D00998799 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C02ABA231FB8CC5D00998799 /* LaunchScreen.storyboard */; };
+		C093F6B11FE58A2B009B270A /* randomColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = C093F6B01FE58A2B009B270A /* randomColor.swift */; };
 		C0A26D221FD490C0007C6734 /* EditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0A26D211FD490C0007C6734 /* EditViewController.swift */; };
 /* End PBXBuildFile section */
 
@@ -25,6 +26,7 @@
 		C02ABA211FB8CC5D00998799 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		C02ABA241FB8CC5D00998799 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		C02ABA261FB8CC5D00998799 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		C093F6B01FE58A2B009B270A /* randomColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = randomColor.swift; sourceTree = "<group>"; };
 		C0A26D211FD490C0007C6734 /* EditViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -60,6 +62,7 @@
 			children = (
 				C02ABA181FB8CC5D00998799 /* AppDelegate.swift */,
 				C02ABA1A1FB8CC5D00998799 /* FirstViewController.swift */,
+				C093F6B01FE58A2B009B270A /* randomColor.swift */,
 				C02ABA1C1FB8CC5D00998799 /* SecondViewController.swift */,
 				C0A26D211FD490C0007C6734 /* EditViewController.swift */,
 				C02ABA1E1FB8CC5D00998799 /* Main.storyboard */,
@@ -143,6 +146,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C0A26D221FD490C0007C6734 /* EditViewController.swift in Sources */,
+				C093F6B11FE58A2B009B270A /* randomColor.swift in Sources */,
 				C02ABA1D1FB8CC5D00998799 /* SecondViewController.swift in Sources */,
 				C02ABA191FB8CC5D00998799 /* AppDelegate.swift in Sources */,
 				C02ABA1B1FB8CC5D00998799 /* FirstViewController.swift in Sources */,

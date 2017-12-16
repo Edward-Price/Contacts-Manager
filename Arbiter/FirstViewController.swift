@@ -181,6 +181,10 @@ class FirstViewController: UIViewController, UITableViewDataSource, UITableViewD
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return allContacts[section].count
     }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 60
+    }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
@@ -192,6 +196,13 @@ class FirstViewController: UIViewController, UITableViewDataSource, UITableViewD
         if contactDetails.phoneNumbers != [] {
             cell.detailTextLabel?.text = "\(contactDetails.phoneNumbers[0].value.stringValue)"
         }
+        cell.imageView?.contentMode = UIViewContentMode.scaleAspectFit
+        cell.imageView?.layer.frame = CGRect(x: 0, y: 0, width: 32, height: 32)
+        cell.imageView?.frame = CGRect(x: 0, y: 0, width: 32, height: 32)
+        cell.imageView?.image = UIImage(named: "profile-default")!.alpha(0.4)
+        cell.imageView?.backgroundColor = .random()
+        cell.imageView?.layer.cornerRadius = 32
+        
         return cell
     }
     
